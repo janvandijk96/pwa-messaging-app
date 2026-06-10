@@ -20,8 +20,8 @@ FROM nginx:alpine
 # Copy built files
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Copy nginx config
-COPY nginx.conf /etc/nginx/nginx.conf
+# Create a simple nginx config
+RUN echo 'events { worker_connections 1024; } http { server { listen 80; location / { root /usr/share/nginx/html; try_files $uri $uri/ /index.html; } } }' > /etc/nginx/nginx.conf
 
 # Expose ports
 EXPOSE 80 443
